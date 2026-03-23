@@ -1,28 +1,14 @@
-# 1. Stage build: Node
-FROM node:20-alpine AS build
+FROM node:20
 
 WORKDIR /app
 
-# Copy package.json + package-lock.json
-COPY package*.json ./
-
-# Cài dependencies
-RUN npm install
-
-# Copy toàn bộ source
 COPY . .
 
-# Build Vite ra dist
+RUN npm install
 RUN npm run build
 
-# 2. Stage serve: nginx
-FROM nginx:alpine
+RUN npm install -g serve
 
-# Copy thư mục dist vào nginx
-COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 5173
 
-# Expose port 80 cho Render
-EXPOSE 80
-
-# CMD serve bằng nginx
-CMD ["nginx", "-g", "daemon off;"]
+CMD serve -s dist -l 5173

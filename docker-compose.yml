@@ -1,18 +1,12 @@
-version: "3.8"
 services:
     backend:
         build: ./backend
         ports:
             - "8000:8000"
-        volumes:
-            - ./backend:/var/www
-        environment:
-            - APP_ENV=local
-            - APP_KEY=base64:SKGj+O8UXeXLMEqdg/PYoJDmIsGq1ds5rp8QDJ/iISQ= # Điền key của bạn vào đây
 
     frontend:
         build: ./frontend
         ports:
-            - "3000:80"
+            - "5173:5173"
         depends_on:
             - backend

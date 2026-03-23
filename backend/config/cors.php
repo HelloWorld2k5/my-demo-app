@@ -19,11 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [
-        'http://localhost:5173', // Port mặc định của Vite
-        'http://127.0.0.1:5173',
-        'https://my-demo-app.com', // URL sau khi bạn deploy
-    ],
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 
