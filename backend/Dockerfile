@@ -1,14 +1,22 @@
-FROM php:8.2-fpm-alpine
+# backend/Dockerfile
+FROM php:8.2-cli
 
-# Cài đặt các extension cần thiết cho Laravel
-RUN docker-php-ext-install pdo_mysql
+# Set working directory
+WORKDIR /app
 
-# Copy code vào container
-WORKDIR /var/www
+# Copy source code
 COPY . .
 
-# Cài đặt Composer
+# Cài các package cần thiết
+RUN apt-get update && apt-get install -y unzip git curl libzip-dev \
+    && docker-php-ext-install pdo pdo_mysql zip
+
+# Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader
 
-CMD ["php-fpm"]
+# Expose port Render sẽ bind
+EXPOSE 8000
+
+# Start Laravel server trên 0.0.0.0:$PORT
+CMD php artisan serve --host=0.0.0.0 --port=$PORT
